@@ -1,2 +1,2 @@
-# pharma-chain
+# Pharma Chain
 Blockchain codebase for Hibah KD.
