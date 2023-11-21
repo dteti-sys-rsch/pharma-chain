@@ -15,3 +15,5 @@
 14.  [Health Insurance Marketplaces](https://www.kaggle.com/datasets/thedevastator/health-insurance-marketplaces)
 15.  [Alcohol & Drug Treatment Services - Australia](https://www.kaggle.com/datasets/joebeachcapital/alcohol-and-drug-treatment-services-australia)
 16.  [Australia - Dietary Supplements & Nutrients - AUSNUT 2011-13](https://www.kaggle.com/datasets/joebeachcapital/dietary-supplements-and-nutrients-ausnut-2011-13/)
+17.  [Health Insurance Datasets from census.gov USA](https://www.census.gov/topics/health/health-insurance/data/datasets.html)
+18.  [Health datasets resources](https://data.world/datasets/health)

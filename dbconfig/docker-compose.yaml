@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+# Database Off Chain
+  pharmachain_mongodb:
+    container_name: pharmachain_mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - protocol: tcp
+        published: 27017
+        target: 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dteti
+      MONGO_INITDB_ROOT_PASSWORD: mongodteti
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - type: volume
+        source: volume_pharmachain_mongodb
+        target: "/data/db"
+        read_only: false
+    networks: 
+      - network_health_insurance
+
+  pharmachain_postgres:
+    container_name: pharmachain_postgres
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_USER: dteti
+      POSTGRES_PASSWORD: postgresdteti
+    ports:
+      - protocol: tcp
+        published: 5432
+        target: 5432
+    volumes:
+      - volume_pharmachain_postgres:/var/lib/postgresql/data
+  
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dteti@dteti.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  volume_pharmachain_mongodb:
+    name: volume_pharmachain_mongodb
+  volume_pharmachain_postgres:
+    name: volume_pharmachain_postgres
+  pgadmin-data:
+    name: pgadmin-data
+  volume_pharmachian_ipfs_stagging:
+    name: volume_pharmachian_ipfs_stagging
+  volume_pharmachian_ipfs_data:
+    name: volume_pharmachian_ipfs_data
+
+networks:
+  network_hospital:
+    name: network_hospital
+    driver: bridge
+  network_health_insurance:
+    name: network_health_insurance
+    driver: bridge
