@@ -1,0 +1,61 @@
+# crypto-config.yaml
+
+OrdererOrgs:
+  # ---------------------------------------------------------------------------
+  # Orderer
+  # ---------------------------------------------------------------------------
+  - Name: AAUI
+    Domain: aaui.org
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+  - Name: AAJI
+    Domain: aaji.org
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+PeerOrgs:
+  # ---------------------------------------------------------------------------
+  # Prudential
+  # ---------------------------------------------------------------------------
+  - Name: Prudential
+    Domain: prudential.co.id
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1
+  # ---------------------------------------------------------------------------
+  # Manulife
+  # ---------------------------------------------------------------------------
+  - Name: Manulife
+    Domain: manulife.co.id
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1
+  # ---------------------------------------------------------------------------
+  # Allianz
+  # ---------------------------------------------------------------------------
+  - Name: Allianz
+    Domain: allianz.co.id
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1
