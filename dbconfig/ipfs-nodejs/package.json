@@ -1,0 +1,18 @@
+{
+  "name": "ipfs-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run reset-and-run",
+    "reset-and-run": "npm run reset-files && node index.js",
+    "reset-files": "del /s /q output-files\\decrypted\\* output-files\\outcomes\\*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@helia/unixfs": "^1.4.2",
+    "helia": "^2.1.0"
+  }
+}
