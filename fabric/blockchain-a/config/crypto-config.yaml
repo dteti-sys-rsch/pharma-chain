@@ -1,0 +1,61 @@
+# crypto-config.yaml
+
+OrdererOrgs:
+  # ---------------------------------------------------------------------------
+  # Orderer
+  # ---------------------------------------------------------------------------
+  - Name: ARSADA
+    Domain: arsada.org
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+  - Name: ARSSI
+    Domain: arssi.org
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+PeerOrgs:
+  # ---------------------------------------------------------------------------
+  # RSUP Dr. Sardjito, DIY [Central General Hospital]
+  # ---------------------------------------------------------------------------
+  - Name: Sardjito
+    Domain: sardjito.co.id
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1
+  # ---------------------------------------------------------------------------
+  # RSUPN Dr. Cipto Mangunkusumo, Jakarta Pusat [National Central General Hospital]
+  # ---------------------------------------------------------------------------
+  - Name: RSCM
+    Domain: rscm.co.id
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1
+  # ---------------------------------------------------------------------------
+  # RS Kanker Dharmais, Jakarta Barat [Private Specialized Hospital]
+  # ---------------------------------------------------------------------------
+  - Name: Dharmais
+    Domain: dharmais.co.id
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+    Users:
+      Count: 1
