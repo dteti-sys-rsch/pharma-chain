@@ -27,7 +27,7 @@ echo "$(json_ccp $ORG $P0PORT $CAPORT $ORGMSP $PEERPEM $CAPEM)" > organizations/
 
 ORG=manulife
 ORGMSP=Manulife
-P0PORT=9051
+P0PORT=8051
 CAPORT=8054
 PEERPEM=organizations/peerOrganizations/manulife.aaui.org/tlsca/tlsca.manulife.aaui.org-cert.pem
 CAPEM=organizations/peerOrganizations/manulife.aaui.org/ca/ca.manulife.aaui.org-cert.pem
@@ -36,8 +36,8 @@ echo "$(json_ccp $ORG $P0PORT $CAPORT $ORGMSP $PEERPEM $CAPEM)" > organizations/
 
 ORG=allianz
 ORGMSP=Allianz
-P0PORT=10051
-CAPORT=10054
+P0PORT=9051
+CAPORT=9054
 PEERPEM=organizations/peerOrganizations/allianz.aaui.org/tlsca/tlsca.allianz.aaui.org-cert.pem
 CAPEM=organizations/peerOrganizations/allianz.aaui.org/ca/ca.allianz.aaui.org-cert.pem
 
