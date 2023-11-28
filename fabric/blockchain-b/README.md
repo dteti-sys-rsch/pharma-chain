@@ -19,7 +19,5 @@ To spin the network, firstly install Hyperledger Fabric [prerequisites](https://
 ### NOTE
 To shut down the docker network and remove the artifacts, run the following commands from project root:
 ```
-$ rm -rf ./channel-artifacts
-$ rm -rf ./organizations
-$ docker-compose -f ./config/docker/docker-compose.yaml down --volumes --remove-orphans
+$ ./shutdown-network.sh
 ```
