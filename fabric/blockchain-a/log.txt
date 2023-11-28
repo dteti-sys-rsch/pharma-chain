@@ -1,2 +1,0 @@
-Installed chaincodes on peer:
-Package ID: pharma-contract_1:910f4c87917593a7951b5d109b45a96b2ec4c6e9e5c2ed8490f60277b1e9979c, Label: pharma-contract_1

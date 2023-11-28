@@ -6,23 +6,23 @@
 export CORE_PEER_TLS_ENABLED=true
 export ARSADA_CA=${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp/tlscacerts/tlsca.arsada.org-cert.pem
 
-export PEER0_SARDJITO_CA=${PWD}/organizations/peerOrganizations/sardjito.co.id/peers/peer0.sardjito.co.id/tls/ca.crt
+export PEER0_SARDJITO_CA=${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/ca.crt
 export PEER0_SARDJITO_PORT=7051
 
-export PEER0_RSCM_CA=${PWD}/organizations/peerOrganizations/rscm.co.id/peers/peer0.rscm.co.id/tls/ca.crt
+export PEER0_RSCM_CA=${PWD}/organizations/peerOrganizations/rscm.arsada.org/peers/peer0.rscm.arsada.org/tls/ca.crt
 export PEER0_RSCM_PORT=8051
 
 export FABRIC_CFG_PATH=${PWD}/config/
 export ARSADA_PORT=5050
 export ARSADA_HOST=orderer.arsada.org
 
-CHANNEL_NAME="pharma-chain"
-CC_NAME="pharma-contract"
+CHANNEL_NAME="network-hospital"
+CC_NAME="hospital-contract"
 
 setGlobalsForPeer0Sardjito(){
     export CORE_PEER_LOCALMSPID="SardjitoMSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_SARDJITO_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/sardjito.co.id/users/Admin@sardjito.co.id/msp
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/sardjito.arsada.org/users/Admin@sardjito.arsada.org/msp
     export CORE_PEER_ADDRESS=localhost:$PEER0_SARDJITO_PORT
 }
 

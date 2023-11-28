@@ -27,7 +27,7 @@ PeerOrgs:
   # RSUP Dr. Sardjito, DIY [Central General Hospital]
   # ---------------------------------------------------------------------------
   - Name: Sardjito
-    Domain: sardjito.co.id
+    Domain: sardjito.arsada.org
     EnableNodeOUs: true
     Template:
       Count: 1
@@ -39,7 +39,7 @@ PeerOrgs:
   # RSUPN Dr. Cipto Mangunkusumo, Jakarta Pusat [National Central General Hospital]
   # ---------------------------------------------------------------------------
   - Name: RSCM
-    Domain: rscm.co.id
+    Domain: rscm.arsada.org
     EnableNodeOUs: true
     Template:
       Count: 1
@@ -51,7 +51,7 @@ PeerOrgs:
   # RS Kanker Dharmais, Jakarta Barat [Private Specialized Hospital]
   # ---------------------------------------------------------------------------
   - Name: Dharmais
-    Domain: dharmais.co.id
+    Domain: dharmais.arsada.org
     EnableNodeOUs: true
     Template:
       Count: 1

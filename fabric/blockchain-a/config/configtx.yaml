@@ -68,7 +68,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: SardjitoMSP
 
-        MSPDir: ../organizations/peerOrganizations/sardjito.co.id/msp
+        MSPDir: ../organizations/peerOrganizations/sardjito.arsada.org/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -92,7 +92,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.sardjito.co.id
+            - Host: peer0.sardjito.arsada.org
               Port: 7051
 
     - &RSCM
@@ -103,7 +103,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: RSCMMSP
 
-        MSPDir: ../organizations/peerOrganizations/rscm.co.id/msp
+        MSPDir: ../organizations/peerOrganizations/rscm.arsada.org/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -126,7 +126,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.rscm.co.id
+            - Host: peer0.rscm.arsada.org
               Port: 8051
 
     - &Dharmais
@@ -137,7 +137,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: DharmaisMSP
 
-        MSPDir: ../organizations/peerOrganizations/dharmais.co.id/msp
+        MSPDir: ../organizations/peerOrganizations/dharmais.arsada.org/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -160,7 +160,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.dharmais.co.id
+            - Host: peer0.dharmais.arsada.org
               Port: 9051
 
 ################################################################################
