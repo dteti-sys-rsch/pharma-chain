@@ -27,7 +27,7 @@ PeerOrgs:
   # Prudential
   # ---------------------------------------------------------------------------
   - Name: Prudential
-    Domain: prudential.co.id
+    Domain: prudential.aaui.org
     EnableNodeOUs: true
     Template:
       Count: 1
@@ -39,7 +39,7 @@ PeerOrgs:
   # Manulife
   # ---------------------------------------------------------------------------
   - Name: Manulife
-    Domain: manulife.co.id
+    Domain: manulife.aaui.org
     EnableNodeOUs: true
     Template:
       Count: 1
@@ -51,7 +51,7 @@ PeerOrgs:
   # Allianz
   # ---------------------------------------------------------------------------
   - Name: Allianz
-    Domain: allianz.co.id
+    Domain: allianz.aaui.org
     EnableNodeOUs: true
     Template:
       Count: 1

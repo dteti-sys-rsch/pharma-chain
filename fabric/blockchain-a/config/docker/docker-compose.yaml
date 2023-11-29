@@ -74,8 +74,8 @@ services:
       - ../../organizations/ordererOrganizations/arssi.org/orderers/orderer.arssi.org/msp:/var/hyperledger/orderer/msp
       - ../../organizations/ordererOrganizations/arssi.org/orderers/orderer.arssi.org/tls:/var/hyperledger/orderer/tls
 
-  peer0.sardjito.co.id:
-    container_name: peer0.sardjito.co.id
+  peer0.sardjito.arsada.org:
+    container_name: peer0.sardjito.arsada.org
     extends:
       file: base.yaml
       service: peer-base
@@ -84,15 +84,15 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=info
       - CORE_PEER_LOCALMSPID=SardjitoMSP
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_pharma-chain
-      - CORE_PEER_ID=peer0.sardjito.co.id
-      - CORE_PEER_ADDRESS=peer0.sardjito.co.id:7051
+      - CORE_PEER_ID=peer0.sardjito.arsada.org
+      - CORE_PEER_ADDRESS=peer0.sardjito.arsada.org:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.sardjito.co.id:7052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.sardjito.arsada.org:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       # Peer used to bootstrap gossip within organisation
       #- CORE_PEER_GOSSIP_BOOTSTRAP=peer0.ta3.com:9051
       # Exposed for discovery Service
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.sardjito.co.id:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.sardjito.arsada.org:7051
       # - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9440
       # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
@@ -107,15 +107,15 @@ services:
     ports:
       - 7051:7051
     volumes:
-      - ../../organizations/peerOrganizations/sardjito.co.id/peers/peer0.sardjito.co.id/msp:/etc/hyperledger/crypto/peer/msp
-      - ../../organizations/peerOrganizations/sardjito.co.id/peers/peer0.sardjito.co.id/tls:/etc/hyperledger/crypto/peer/tls
+      - ../../organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/msp:/etc/hyperledger/crypto/peer/msp
+      - ../../organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
       # - ./channel/:/etc/hyperledger/channel/
     networks:
       - pharma-chain
 
-  peer0.rscm.co.id:
-    container_name: peer0.rscm.co.id
+  peer0.rscm.arsada.org:
+    container_name: peer0.rscm.arsada.org
     extends:
       file: base.yaml
       service: peer-base
@@ -124,13 +124,13 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=info
       - CORE_PEER_LOCALMSPID=RSCMMSP
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_pharma-chain
-      - CORE_PEER_ID=peer0.rscm.co.id
-      - CORE_PEER_ADDRESS=peer0.rscm.co.id:8051
+      - CORE_PEER_ID=peer0.rscm.arsada.org
+      - CORE_PEER_ADDRESS=peer0.rscm.arsada.org:8051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.rscm.co.id:8052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.rscm.arsada.org:8052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
       # Exposed for discovery Service
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.rscm.co.id:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.rscm.arsada.org:8051
       # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
@@ -145,15 +145,15 @@ services:
     ports:
       - 8051:8051
     volumes:
-      - ../../organizations/peerOrganizations/rscm.co.id/peers/peer0.rscm.co.id/msp:/etc/hyperledger/crypto/peer/msp
-      - ../../organizations/peerOrganizations/rscm.co.id/peers/peer0.rscm.co.id/tls:/etc/hyperledger/crypto/peer/tls
+      - ../../organizations/peerOrganizations/rscm.arsada.org/peers/peer0.rscm.arsada.org/msp:/etc/hyperledger/crypto/peer/msp
+      - ../../organizations/peerOrganizations/rscm.arsada.org/peers/peer0.rscm.arsada.org/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
       # - ./channel/:/etc/hyperledger/channel/
     networks:
       - pharma-chain
 
-  peer0.dharmais.co.id:
-    container_name: peer0.dharmais.co.id
+  peer0.dharmais.arsada.org:
+    container_name: peer0.dharmais.arsada.org
     extends:
       file: base.yaml
       service: peer-base
@@ -162,10 +162,10 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=info
       - CORE_PEER_LOCALMSPID=DharmaisMSP
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=docker_pharma-chain
-      - CORE_PEER_ID=peer0.dharmais.co.id
-      - CORE_PEER_ADDRESS=peer0.dharmais.co.id:9051
+      - CORE_PEER_ID=peer0.dharmais.arsada.org
+      - CORE_PEER_ADDRESS=peer0.dharmais.arsada.org:9051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.dharmais.co.id:9052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.dharmais.arsada.org:9052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       # Exposed for discovery Service
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.ta3.com:9051
@@ -183,8 +183,8 @@ services:
     ports:
       - 9051:9051
     volumes:
-      - ../../organizations/peerOrganizations/dharmais.co.id/peers/peer0.dharmais.co.id/msp:/etc/hyperledger/crypto/peer/msp
-      - ../../organizations/peerOrganizations/dharmais.co.id/peers/peer0.dharmais.co.id/tls:/etc/hyperledger/crypto/peer/tls
+      - ../../organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/msp:/etc/hyperledger/crypto/peer/msp
+      - ../../organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
       # - ./channel/:/etc/hyperledger/channel/
     networks:

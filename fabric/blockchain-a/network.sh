@@ -4,16 +4,8 @@
 # PHARMA-CHAIN
 # (c) 2023
 
-# Delete existing artifacts
-if [ -d channel-artifacts ]; then
-  rm -rf ./channel-artifacts
-fi
-if [ -d ./organizations/ ]; then
-  rm -rf ./organizations
-fi
-
-# Stop the network (if any)
-docker compose -f ./config/docker/docker-compose.yaml down --volumes --remove-orphans
+# Delete existing artifacts & Stop the network (if any)
+shutdown-network.sh
 
 # Create artifacts
 scripts/createArtifacts.sh
@@ -32,3 +24,6 @@ scripts/deployChaincode.sh
 
 # Test the chain code
 scripts/testChaincode.sh
+
+# Generating CCP files for Prudential, Manulife, and Allianz
+scripts/ccp-generate.sh

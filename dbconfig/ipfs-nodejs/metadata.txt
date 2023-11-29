@@ -1,0 +1,6 @@
+[
+  {
+    "file": "test.txt",
+    "cid": "bafkreidlzh4ixpx5vlkvtkeqkzmrxws7bd5jgudujclm4b2dlw5xnmdzla"
+  }
+]

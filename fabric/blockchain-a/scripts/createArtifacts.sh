@@ -8,7 +8,7 @@ cryptogen generate --config=./config/crypto-config.yaml --output=./organizations
 
 # System channel
 SYS_CHANNEL="sys-channel"
-CHANNEL_NAME="pharma-chain"
+CHANNEL_NAME="network-hospital"
 
 echo $CHANNEL_NAME
 
