@@ -362,23 +362,23 @@
                 - 9051:9051
                 - 9445:9445
     4. ccp-generate.sh
-    ORG=1
-    P0PORT=7051 (peer0.org1.example.com:7051)
-    CAPORT=7054 (ca_org1: 7054)
+        ORG=1
+        P0PORT=7051 (peer0.org1.example.com:7051)
+        CAPORT=7054 (ca_org1: 7054)
 
-    ORG=2
-    P0PORT=9051 (peer0.org2.example.com:9051)
-    CAPORT=8054 (ca_org2: 8054)
+        ORG=2
+        P0PORT=9051 (peer0.org2.example.com:9051)
+        CAPORT=8054 (ca_org2: 8054)
     5. fabric-ca/ordererOrg, org1, org2
-    port: 7054
+        port: 7054
     6. fabric-ca/registerEnroll.sh
-    function createOrg1(): 7054
-    function createOrg2(): 8054
-    function createOrderer(): 9054
+        function createOrg1(): 7054
+        function createOrg2(): 8054
+        function createOrderer(): 9054
     7. script/configUpdate.sh
-    orderer.example.com:7050 (OrdererEndpoints port)
+        orderer.example.com:7050 (OrdererEndpoints port)
     8. script/createChannel
-    localhost:7050 (OrdererEndpoints port)
+        localhost:7050 (OrdererEndpoints port)
     9. script/deployCC.sh
         localhost:7050 (OrdererEndpoints port)
     10. script/envVar.sh
