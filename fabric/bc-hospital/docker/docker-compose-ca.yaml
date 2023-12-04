@@ -1,0 +1,66 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2.1'
+
+networks:
+  test:
+    name: fabric_test
+
+services:
+
+  ca_sardjito:
+    image: hyperledger/fabric-ca:latest
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-sardjito
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_PORT=11051
+      - FABRIC_CA_SERVER_OPERATIONS_LISTENADDRESS=0.0.0.0:11051
+    ports:
+      - "11051:11051"
+      - "17051:17051"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ../organizations/fabric-ca/sardjito:/etc/hyperledger/fabric-ca-server
+    container_name: ca_sardjito
+    networks:
+      - test
+
+  ca_dharmais:
+    image: hyperledger/fabric-ca:latest
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-dharmais
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_PORT=11052
+      - FABRIC_CA_SERVER_OPERATIONS_LISTENADDRESS=0.0.0.0:11052
+    ports:
+      - "11052:11052"
+      - "17052:17052"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ../organizations/fabric-ca/dharmais:/etc/hyperledger/fabric-ca-server
+    container_name: ca_dharmais
+    networks:
+      - test
+
+  ca_arsada:
+    image: hyperledger/fabric-ca:latest
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-arsada
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_PORT=12051
+      - FABRIC_CA_SERVER_OPERATIONS_LISTENADDRESS=0.0.0.0:12051
+    ports:
+      - "12051:12051"
+      - "18051:18051"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ../organizations/fabric-ca/arsada:/etc/hyperledger/fabric-ca-server
+    container_name: ca_arsada
+    networks:
+      - test
