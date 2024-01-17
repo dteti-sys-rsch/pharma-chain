@@ -15,19 +15,19 @@ createAnchorPeerUpdate() {
   infoln "Fetching channel config for channel $CHANNEL_NAME"
   fetchChannelConfig $ORG $CHANNEL_NAME ${CORE_PEER_LOCALMSPID}config.json
 
-  infoln "Generating anchor peer update transaction for ${ORG} on channel $CHANNEL_NAME"
+  infoln "Generating anchor peer update transaction for Org${ORG} on channel $CHANNEL_NAME"
 
-  if [ $ORG -eq 1 ]; then
-    HOST="peer0.prudential.aaui.org"
-    PORT=10053
-  elif [ $ORG -eq 2 ]; then
-    HOST="peer0.manulife.aaui.org"
-    PORT=10054
-  elif [ $ORG -eq 3 ]; then
-    HOST="peer0.org3.aaui.org"
-    PORT=10056
+  if [ $ORG -eq 4 ]; then
+    HOST="peer0.org4.insurance.com"
+    PORT=7121
+  elif [ $ORG -eq 5 ]; then
+    HOST="peer0.org5.insurance.com"
+    PORT=7131
+  elif [ $ORG -eq 6 ]; then
+    HOST="peer0.org6.insurance.com"
+    PORT=7141
   else
-    errorln "${ORG} unknown"
+    errorln "Org${ORG} unknown"
   fi
 
   set -x
@@ -42,7 +42,7 @@ createAnchorPeerUpdate() {
 }
 
 updateAnchorPeer() {
-  peer channel update -o orderer.aaui.org:7050 --ordererTLSHostnameOverride orderer.aaui.org -c $CHANNEL_NAME -f ${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile $ORDERER_CA >&log.txt
+  peer channel update -o aaui.insurance.com:7150 --ordererTLSHostnameOverride aaui.insurance.com -c $CHANNEL_NAME -f ${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile $ORDERER_CA >&log.txt
   res=$?
   cat log.txt
   verifyResult $res "Anchor peer update failed"

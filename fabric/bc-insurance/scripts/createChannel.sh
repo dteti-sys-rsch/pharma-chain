@@ -8,7 +8,7 @@ CHANNEL_NAME="$1"
 DELAY="$2"
 MAX_RETRY="$3"
 VERBOSE="$4"
-: ${CHANNEL_NAME:="hospital"}
+: ${CHANNEL_NAME:="mychannel"}
 : ${DELAY:="3"}
 : ${MAX_RETRY:="5"}
 : ${VERBOSE:="false"}
@@ -26,14 +26,14 @@ createChannelTx() {
 }
 
 createChannel() {
-	setGlobals 1
+	setGlobals 4
 	# Poll in case the raft leader is not set yet
 	local rc=1
 	local COUNTER=1
 	while [ $rc -ne 0 -a $COUNTER -lt $MAX_RETRY ] ; do
 		sleep $DELAY
 		set -x
-		peer channel create -o localhost:7052 -c $CHANNEL_NAME --ordererTLSHostnameOverride orderer.aaui.org -f ./channel-artifacts/${CHANNEL_NAME}.tx --outputBlock $BLOCKFILE --tls --cafile $ORDERER_CA >&log.txt
+		peer channel create -o localhost:7150 -c $CHANNEL_NAME --ordererTLSHostnameOverride aaui.insurance.com -f ./channel-artifacts/${CHANNEL_NAME}.tx --outputBlock $BLOCKFILE --tls --cafile $ORDERER_CA >&log.txt
 		res=$?
 		{ set +x; } 2>/dev/null
 		let rc=$res
@@ -66,7 +66,7 @@ joinChannel() {
 
 setAnchorPeer() {
   ORG=$1
-  docker exec cli ./scripts/setAnchorPeer.sh $ORG $CHANNEL_NAME 
+  docker exec cli_insurance ./scripts/setAnchorPeer.sh $ORG $CHANNEL_NAME 
 }
 
 FABRIC_CFG_PATH=${PWD}/configtx
@@ -84,15 +84,15 @@ createChannel
 successln "Channel '$CHANNEL_NAME' created"
 
 ## Join all the peers to the channel
-infoln "Joining prudential peer to the channel..."
-joinChannel 1
-infoln "Joining manulife peer to the channel..."
-joinChannel 2
+infoln "Joining org4 peer to the channel..."
+joinChannel 4
+infoln "Joining org5 peer to the channel..."
+joinChannel 5
 
 ## Set the anchor peers for each org in the channel
-infoln "Setting anchor peer for prudential..."
-setAnchorPeer 1
-infoln "Setting anchor peer for manulife..."
-setAnchorPeer 2
+infoln "Setting anchor peer for org4..."
+setAnchorPeer 4
+infoln "Setting anchor peer for org5..."
+setAnchorPeer 5
 
 successln "Channel '$CHANNEL_NAME' joined"

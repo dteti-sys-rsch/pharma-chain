@@ -11,10 +11,10 @@
 . scripts/utils.sh
 
 export CORE_PEER_TLS_ENABLED=true
-export ORDERER_CA=${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp/tlscacerts/tlsca.arsada.org-cert.pem
-export PEER0_ORG1_CA=${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/ca.crt
-export PEER0_ORG2_CA=${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/ca.crt
-export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.arsada.org/peers/peer0.org3.arsada.org/tls/ca.crt
+export ORDERER_CA=${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp/tlscacerts/tlsca.hospital.com-cert.pem
+export PEER0_ORG1_CA=${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/ca.crt
+export PEER0_ORG2_CA=${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/ca.crt
+export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.hospital.com/peers/peer0.org3.hospital.com/tls/ca.crt
 
 # Set environment variables for the peer org
 setGlobals() {
@@ -26,21 +26,21 @@ setGlobals() {
   fi
   infoln "Using organization ${USING_ORG}"
   if [ $USING_ORG -eq 1 ]; then
-    export CORE_PEER_LOCALMSPID="SardjitoMSP"
+    export CORE_PEER_LOCALMSPID="Org1MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/sardjito.arsada.org/users/Admin@sardjito.arsada.org/msp
-    export CORE_PEER_ADDRESS=localhost:10051
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.hospital.com/users/Admin@org1.hospital.com/msp
+    export CORE_PEER_ADDRESS=localhost:7021
   elif [ $USING_ORG -eq 2 ]; then
-    export CORE_PEER_LOCALMSPID="DharmaisMSP"
+    export CORE_PEER_LOCALMSPID="Org2MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/dharmais.arsada.org/users/Admin@dharmais.arsada.org/msp
-    export CORE_PEER_ADDRESS=localhost:10052
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.hospital.com/users/Admin@org2.hospital.com/msp
+    export CORE_PEER_ADDRESS=localhost:7031
 
   elif [ $USING_ORG -eq 3 ]; then
     export CORE_PEER_LOCALMSPID="Org3MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org3.arsada.org/users/Admin@org3.arsada.org/msp
-    export CORE_PEER_ADDRESS=localhost:11055
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org3.hospital.com/users/Admin@org3.hospital.com/msp
+    export CORE_PEER_ADDRESS=localhost:7041
   else
     errorln "ORG Unknown"
   fi
@@ -61,11 +61,11 @@ setGlobalsCLI() {
     USING_ORG="${OVERRIDE_ORG}"
   fi
   if [ $USING_ORG -eq 1 ]; then
-    export CORE_PEER_ADDRESS=peer0.sardjito.arsada.org:10051
+    export CORE_PEER_ADDRESS=peer0.org1.hospital.com:7021
   elif [ $USING_ORG -eq 2 ]; then
-    export CORE_PEER_ADDRESS=peer0.dharmais.arsada.org:10052
+    export CORE_PEER_ADDRESS=peer0.org2.hospital.com:7031
   elif [ $USING_ORG -eq 3 ]; then
-    export CORE_PEER_ADDRESS=peer0.org3.arsada.org:11055
+    export CORE_PEER_ADDRESS=peer0.org3.hospital.com:7041
   else
     errorln "ORG Unknown"
   fi

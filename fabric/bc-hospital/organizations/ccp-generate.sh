@@ -5,14 +5,13 @@ function one_line_pem {
 }
 
 function json_ccp {
-    local PP=$(one_line_pem $5)
-    local CP=$(one_line_pem $6)
+    local PP=$(one_line_pem $4)
+    local CP=$(one_line_pem $5)
     sed -e "s/\${ORG}/$1/" \
         -e "s/\${P0PORT}/$2/" \
         -e "s/\${CAPORT}/$3/" \
         -e "s#\${PEERPEM}#$PP#" \
         -e "s#\${CAPEM}#$CP#" \
-        -e "s/\${ORGMSP}/$4/" \
         organizations/ccp-template.json
 }
 
@@ -24,26 +23,23 @@ function yaml_ccp {
         -e "s/\${CAPORT}/$3/" \
         -e "s#\${PEERPEM}#$PP#" \
         -e "s#\${CAPEM}#$CP#" \
-        -e "s/\${ORGMSP}/$4/" \
         organizations/ccp-template.yaml | sed -e $'s/\\\\n/\\\n          /g'
 }
 
-ORG=sardjito
-ORGMSP=Sardjito
-P0PORT=10051
-CAPORT=11051
-PEERPEM=organizations/peerOrganizations/sardjito.arsada.org/tlsca/tlsca.sardjito.arsada.org-cert.pem
-CAPEM=organizations/peerOrganizations/sardjito.arsada.org/ca/ca.sardjito.arsada.org-cert.pem
+ORG=1
+P0PORT=7021
+CAPORT=7011
+PEERPEM=organizations/peerOrganizations/org1.hospital.com/tlsca/tlsca.org1.hospital.com-cert.pem
+CAPEM=organizations/peerOrganizations/org1.hospital.com/ca/ca.org1.hospital.com-cert.pem
 
-echo "$(json_ccp $ORG $P0PORT $CAPORT $ORGMSP $PEERPEM $CAPEM)" > organizations/peerOrganizations/sardjito.arsada.org/connection-sardjito.json
-echo "$(yaml_ccp $ORG $P0PORT $CAPORT $ORGMSP $PEERPEM $CAPEM)" > organizations/peerOrganizations/sardjito.arsada.org/connection-sardjito.yaml
+echo "$(json_ccp $ORG $P0PORT $CAPORT $PEERPEM $CAPEM)" > organizations/peerOrganizations/org1.hospital.com/connection-org1.json
+echo "$(yaml_ccp $ORG $P0PORT $CAPORT $PEERPEM $CAPEM)" > organizations/peerOrganizations/org1.hospital.com/connection-org1.yaml
 
-ORG=dharmais
-ORGMSP=Dharmais
-P0PORT=10052
-CAPORT=11052
-PEERPEM=organizations/peerOrganizations/dharmais.arsada.org/tlsca/tlsca.dharmais.arsada.org-cert.pem
-CAPEM=organizations/peerOrganizations/dharmais.arsada.org/ca/ca.dharmais.arsada.org-cert.pem
+ORG=2
+P0PORT=7031
+CAPORT=7012
+PEERPEM=organizations/peerOrganizations/org2.hospital.com/tlsca/tlsca.org2.hospital.com-cert.pem
+CAPEM=organizations/peerOrganizations/org2.hospital.com/ca/ca.org2.hospital.com-cert.pem
 
-echo "$(json_ccp $ORG $P0PORT $CAPORT $ORGMSP $PEERPEM $CAPEM)" > organizations/peerOrganizations/dharmais.arsada.org/connection-dharmais.json
-echo "$(yaml_ccp $ORG $P0PORT $CAPORT $ORGMSP $PEERPEM $CAPEM)" > organizations/peerOrganizations/dharmais.arsada.org/connection-dharmais.yaml
+echo "$(json_ccp $ORG $P0PORT $CAPORT $PEERPEM $CAPEM)" > organizations/peerOrganizations/org2.hospital.com/connection-org2.json
+echo "$(yaml_ccp $ORG $P0PORT $CAPORT $PEERPEM $CAPEM)" > organizations/peerOrganizations/org2.hospital.com/connection-org2.yaml

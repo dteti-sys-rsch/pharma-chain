@@ -52,7 +52,7 @@ function checkPrereqs() {
   ## Check if your have cloned the peer binaries and configuration files.
   peer version > /dev/null 2>&1
 
-  if [[ $? -ne 0 || ! -d "./config" ]]; then
+  if [[ $? -ne 0 || ! -d "../config" ]]; then
     errorln "Peer binary and configuration files not found.."
     errorln
     errorln "Follow the instructions in the Fabric docs to install the Fabric Binaries:"
@@ -143,30 +143,30 @@ function createOrgs() {
     fi
     infoln "Generating certificates using cryptogen tool"
 
-    infoln "Creating sardjito Identities"
+    infoln "Creating Org1 Identities"
 
     set -x
-    cryptogen generate --config=./organizations/cryptogen/crypto-config-sardjito.yaml --output="organizations"
+    cryptogen generate --config=./organizations/cryptogen/crypto-config-org1.yaml --output="organizations"
     res=$?
     { set +x; } 2>/dev/null
     if [ $res -ne 0 ]; then
       fatalln "Failed to generate certificates..."
     fi
 
-    infoln "Creating dharmais Identities"
+    infoln "Creating Org2 Identities"
 
     set -x
-    cryptogen generate --config=./organizations/cryptogen/crypto-config-dharmais.yaml --output="organizations"
+    cryptogen generate --config=./organizations/cryptogen/crypto-config-org2.yaml --output="organizations"
     res=$?
     { set +x; } 2>/dev/null
     if [ $res -ne 0 ]; then
       fatalln "Failed to generate certificates..."
     fi
 
-    infoln "Creating Orderer Org (ARSADA) Identities"
+    infoln "Creating Orderer Org Identities"
 
     set -x
-    cryptogen generate --config=./organizations/cryptogen/crypto-config-arsada.yaml --output="organizations"
+    cryptogen generate --config=./organizations/cryptogen/crypto-config-orderer.yaml --output="organizations"
     res=$?
     { set +x; } 2>/dev/null
     if [ $res -ne 0 ]; then
@@ -185,28 +185,28 @@ function createOrgs() {
 
   while :
     do
-      if [ ! -f "organizations/fabric-ca/sardjito/tls-cert.pem" ]; then
+      if [ ! -f "organizations/fabric-ca/org1/tls-cert.pem" ]; then
         sleep 1
       else
         break
       fi
     done
 
-    infoln "Creating Sardjito Identities"
+    infoln "Creating Org1 Identities"
 
-    createsardjito
+    createOrg1
 
-    infoln "Creating Dharmais Identities"
+    infoln "Creating Org2 Identities"
 
-    createdharmais
+    createOrg2
 
-    infoln "Creating Orderer ARSADA Identities"
+    infoln "Creating Orderer Org Identities"
 
-    createarsada
+    createOrderer
 
   fi
 
-  infoln "Generating CCP files for sardjito and dharmais"
+  infoln "Generating CCP files for Org1 and Org2"
   ./organizations/ccp-generate.sh
 }
 
@@ -285,7 +285,7 @@ function networkUp() {
   fi
 }
 
-# call the script to create the channel, join the peers of sardjito and dharmais,
+# call the script to create the channel, join the peers of org1 and org2,
 # and then update the anchor peers for each organization
 function createChannel() {
   # Bring up the network if it is not already up.
@@ -315,7 +315,7 @@ function deployCC() {
 
 # Tear down running network
 function networkDown() {
-  # stop org3 containers also in addition to sardjito and dharmais, in case we were running sample to add org3
+  # stop org3 containers also in addition to org1 and org2, in case we were running sample to add org3
   docker-compose -f $COMPOSE_FILE_BASE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_CA down --volumes --remove-orphans
   docker-compose -f $COMPOSE_FILE_COUCH_ORG3 -f $COMPOSE_FILE_ORG3 down --volumes --remove-orphans
   # Don't remove the generated artifacts -- note, the ledgers are always removed
@@ -328,9 +328,9 @@ function networkDown() {
     # remove orderer block and other channel configuration transactions and certs
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf system-genesis-block/*.block organizations/peerOrganizations organizations/ordererOrganizations'
     ## remove fabric ca artifacts
-    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/sardjito/msp organizations/fabric-ca/sardjito/tls-cert.pem organizations/fabric-ca/sardjito/ca-cert.pem organizations/fabric-ca/sardjito/IssuerPublicKey organizations/fabric-ca/sardjito/IssuerRevocationPublicKey organizations/fabric-ca/sardjito/fabric-ca-server.db'
-    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/dharmais/msp organizations/fabric-ca/dharmais/tls-cert.pem organizations/fabric-ca/dharmais/ca-cert.pem organizations/fabric-ca/dharmais/IssuerPublicKey organizations/fabric-ca/dharmais/IssuerRevocationPublicKey organizations/fabric-ca/dharmais/fabric-ca-server.db'
-    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/arsada/msp organizations/fabric-ca/arsada/tls-cert.pem organizations/fabric-ca/arsada/ca-cert.pem organizations/fabric-ca/arsada/IssuerPublicKey organizations/fabric-ca/arsada/IssuerRevocationPublicKey organizations/fabric-ca/arsada/fabric-ca-server.db'
+    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/org1/msp organizations/fabric-ca/org1/tls-cert.pem organizations/fabric-ca/org1/ca-cert.pem organizations/fabric-ca/org1/IssuerPublicKey organizations/fabric-ca/org1/IssuerRevocationPublicKey organizations/fabric-ca/org1/fabric-ca-server.db'
+    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/org2/msp organizations/fabric-ca/org2/tls-cert.pem organizations/fabric-ca/org2/ca-cert.pem organizations/fabric-ca/org2/IssuerPublicKey organizations/fabric-ca/org2/IssuerRevocationPublicKey organizations/fabric-ca/org2/fabric-ca-server.db'
+    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/arsadaOrg/msp organizations/fabric-ca/arsadaOrg/tls-cert.pem organizations/fabric-ca/arsadaOrg/ca-cert.pem organizations/fabric-ca/arsadaOrg/IssuerPublicKey organizations/fabric-ca/arsadaOrg/IssuerRevocationPublicKey organizations/fabric-ca/arsadaOrg/fabric-ca-server.db'
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf addOrg3/fabric-ca/org3/msp addOrg3/fabric-ca/org3/tls-cert.pem addOrg3/fabric-ca/org3/ca-cert.pem addOrg3/fabric-ca/org3/IssuerPublicKey addOrg3/fabric-ca/org3/IssuerRevocationPublicKey addOrg3/fabric-ca/org3/fabric-ca-server.db'
     # remove channel and script artifacts
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf channel-artifacts log.txt *.tar.gz'
@@ -341,14 +341,14 @@ function networkDown() {
 # native binaries for your platform, e.g., darwin-amd64 or linux-amd64
 OS_ARCH=$(echo "$(uname -s | tr '[:upper:]' '[:lower:]' | sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
 # Using crpto vs CA. default is cryptogen
-CRYPTO="CA"
+CRYPTO="cryptogen"
 # timeout duration - the duration the CLI should wait for a response from
 # another container before giving up
 MAX_RETRY=5
 # default for delay between commands
 CLI_DELAY=3
 # channel name defaults to "mychannel"
-CHANNEL_NAME="network-hospital"
+CHANNEL_NAME="mychannel"
 # chaincode name defaults to "NA"
 CC_NAME="NA"
 # chaincode path defaults to "NA"
@@ -505,7 +505,7 @@ elif [ "$MODE" == "deployCC" ]; then
   infoln "deploying chaincode on channel '${CHANNEL_NAME}'"
 else
   printHelp
-  exit 1 
+  exit 1
 fi
 
 if [ "${MODE}" == "up" ]; then

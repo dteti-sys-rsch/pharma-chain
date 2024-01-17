@@ -11,10 +11,10 @@
 . scripts/utils.sh
 
 export CORE_PEER_TLS_ENABLED=true
-export ORDERER_CA=${PWD}/organizations/ordererOrganizations/aaui.org/orderers/orderer.aaui.org/msp/tlscacerts/tlsca.aaui.org-cert.pem
-export PEER0_ORG1_CA=${PWD}/organizations/peerOrganizations/prudential.aaui.org/peers/peer0.prudential.aaui.org/tls/ca.crt
-export PEER0_ORG2_CA=${PWD}/organizations/peerOrganizations/manulife.aaui.org/peers/peer0.manulife.aaui.org/tls/ca.crt
-export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.aaui.org/peers/peer0.org3.aaui.org/tls/ca.crt
+export ORDERER_CA=${PWD}/organizations/ordererOrganizations/insurance.com/orderers/aaui.insurance.com/msp/tlscacerts/tlsca.insurance.com-cert.pem
+export PEER0_ORG4_CA=${PWD}/organizations/peerOrganizations/org4.insurance.com/peers/peer0.org4.insurance.com/tls/ca.crt
+export PEER0_ORG5_CA=${PWD}/organizations/peerOrganizations/org5.insurance.com/peers/peer0.org5.insurance.com/tls/ca.crt
+export PEER0_ORG6_CA=${PWD}/organizations/peerOrganizations/org6.insurance.com/peers/peer0.org6.insurance.com/tls/ca.crt
 
 # Set environment variables for the peer org
 setGlobals() {
@@ -25,22 +25,22 @@ setGlobals() {
     USING_ORG="${OVERRIDE_ORG}"
   fi
   infoln "Using organization ${USING_ORG}"
-  if [ $USING_ORG -eq 1 ]; then
-    export CORE_PEER_LOCALMSPID="PrudentialMSP"
-    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/prudential.aaui.org/users/Admin@prudential.aaui.org/msp
-    export CORE_PEER_ADDRESS=localhost:10053
-  elif [ $USING_ORG -eq 2 ]; then
-    export CORE_PEER_LOCALMSPID="ManulifeMSP"
-    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/manulife.aaui.org/users/Admin@manulife.aaui.org/msp
-    export CORE_PEER_ADDRESS=localhost:10054
+  if [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_LOCALMSPID="Org4MSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG4_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org4.insurance.com/users/Admin@org4.insurance.com/msp
+    export CORE_PEER_ADDRESS=localhost:7121
+  elif [ $USING_ORG -eq 5 ]; then
+    export CORE_PEER_LOCALMSPID="Org5MSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG5_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org5.insurance.com/users/Admin@org5.insurance.com/msp
+    export CORE_PEER_ADDRESS=localhost:7131
 
-  elif [ $USING_ORG -eq 3 ]; then
-    export CORE_PEER_LOCALMSPID="Org3MSP"
-    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org3.aaui.org/users/Admin@org3.aaui.org/msp
-    export CORE_PEER_ADDRESS=localhost:11056
+  elif [ $USING_ORG -eq 6 ]; then
+    export CORE_PEER_LOCALMSPID="Org6MSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG6_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org6.insurance.com/users/Admin@org6.insurance.com/msp
+    export CORE_PEER_ADDRESS=localhost:7141
   else
     errorln "ORG Unknown"
   fi
@@ -60,12 +60,12 @@ setGlobalsCLI() {
   else
     USING_ORG="${OVERRIDE_ORG}"
   fi
-  if [ $USING_ORG -eq 1 ]; then
-    export CORE_PEER_ADDRESS=peer0.prudential.aaui.org:10053
-  elif [ $USING_ORG -eq 2 ]; then
-    export CORE_PEER_ADDRESS=peer0.manulife.aaui.org:10054
-  elif [ $USING_ORG -eq 3 ]; then
-    export CORE_PEER_ADDRESS=peer0.org3.aaui.org:11056
+  if [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_ADDRESS=peer0.org4.insurance.com:7121
+  elif [ $USING_ORG -eq 5 ]; then
+    export CORE_PEER_ADDRESS=peer0.org5.insurance.com:7131
+  elif [ $USING_ORG -eq 6 ]; then
+    export CORE_PEER_ADDRESS=peer0.org6.insurance.com:7141
   else
     errorln "ORG Unknown"
   fi

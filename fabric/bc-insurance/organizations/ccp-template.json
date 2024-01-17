@@ -1,8 +1,8 @@
 {
-    "name": "test-network-${ORG}",
+    "name": "test-network-org${ORG}",
     "version": "1.0.0",
     "client": {
-        "organization": "${ORGMSP}",
+        "organization": "Org${ORG}",
         "connection": {
             "timeout": {
                 "peer": {
@@ -12,32 +12,32 @@
         }
     },
     "organizations": {
-        "${ORGMSP}": {
-            "mspid": "${ORGMSP}MSP",
+        "Org${ORG}": {
+            "mspid": "Org${ORG}MSP",
             "peers": [
-                "peer0.${ORG}.aaui.org"
+                "peer0.org${ORG}.insurance.com"
             ],
             "certificateAuthorities": [
-                "ca.${ORG}.aaui.org"
+                "ca.org${ORG}.insurance.com"
             ]
         }
     },
     "peers": {
-        "peer0.${ORG}.aaui.org": {
+        "peer0.org${ORG}.insurance.com": {
             "url": "grpcs://localhost:${P0PORT}",
             "tlsCACerts": {
                 "pem": "${PEERPEM}"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.${ORG}.aaui.org",
-                "hostnameOverride": "peer0.${ORG}.aaui.org"
+                "ssl-target-name-override": "peer0.org${ORG}.insurance.com",
+                "hostnameOverride": "peer0.org${ORG}.insurance.com"
             }
         }
     },
     "certificateAuthorities": {
-        "ca.${ORG}.aaui.org": {
+        "ca.org${ORG}.insurance.com": {
             "url": "https://localhost:${CAPORT}",
-            "caName": "ca-${ORG}",
+            "caName": "ca-org${ORG}",
             "tlsCACerts": {
                 "pem": [
                     "${CAPEM}"

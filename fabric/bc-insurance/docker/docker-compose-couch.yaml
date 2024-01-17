@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-version: '2.1'
+version: "2.1"
 
 networks:
   test:
-    name: fabric_test
+    name: insurance_network
 
 services:
   couchdb0:
@@ -25,7 +25,7 @@ services:
     networks:
       - test
 
-  peer0.prudential.aaui.org:
+  peer0.org4.insurance.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
@@ -52,7 +52,7 @@ services:
     networks:
       - test
 
-  peer0.manulife.aaui.org:
+  peer0.org5.insurance.com:
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984

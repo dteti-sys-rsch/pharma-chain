@@ -1,226 +1,226 @@
 #!/bin/bash
 
-function createsardjito() {
+function createOrg1() {
   infoln "Enrolling the CA admin"
-  mkdir -p organizations/peerOrganizations/sardjito.arsada.org/
+  mkdir -p organizations/peerOrganizations/org1.hospital.com/
 
-  export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/sardjito.arsada.org/
+  export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/org1.hospital.com/
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:11054 --caname ca-sardjito --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client enroll -u https://admin:adminpw@localhost:7011 --caname ca-org1 --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-11054-ca-sardjito.pem
+    Certificate: cacerts/localhost-7011-ca-org1.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-11054-ca-sardjito.pem
+    Certificate: cacerts/localhost-7011-ca-org1.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-11054-ca-sardjito.pem
+    Certificate: cacerts/localhost-7011-ca-org1.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-11054-ca-sardjito.pem
-    OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/peerOrganizations/sardjito.arsada.org/msp/config.yaml
+    Certificate: cacerts/localhost-7011-ca-org1.pem
+    OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml
 
   infoln "Registering peer0"
   set -x
-  fabric-ca-client register --caname ca-sardjito --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client register --caname ca-org1 --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Registering user"
   set -x
-  fabric-ca-client register --caname ca-sardjito --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client register --caname ca-org1 --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Registering the org admin"
   set -x
-  fabric-ca-client register --caname ca-sardjito --id.name sardjitoadmin --id.secret sardjitoadminpw --id.type admin --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client register --caname ca-org1 --id.name org1admin --id.secret org1adminpw --id.type admin --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Generating the peer0 msp"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:11054 --caname ca-sardjito -M ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/msp --csr.hosts peer0.sardjito.arsada.org --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp --csr.hosts peer0.org1.hospital.com --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/msp/config.yaml ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp/config.yaml
 
   infoln "Generating the peer0-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:11054 --caname ca-sardjito -M ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls --enrollment.profile tls --csr.hosts peer0.sardjito.arsada.org --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls --enrollment.profile tls --csr.hosts peer0.org1.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/ca.crt
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/signcerts/* ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/server.crt
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/keystore/* ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/server.key
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/ca.crt
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/signcerts/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/server.crt
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/keystore/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/server.key
 
-  mkdir -p ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/msp/tlscacerts
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/msp/tlscacerts/ca.crt
+  mkdir -p ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/tlscacerts
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/tlscacerts/ca.crt
 
-  mkdir -p ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/tlsca
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/tlsca/tlsca.sardjito.arsada.org-cert.pem
+  mkdir -p ${PWD}/organizations/peerOrganizations/org1.hospital.com/tlsca
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/tlsca/tlsca.org1.hospital.com-cert.pem
 
-  mkdir -p ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/ca
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/msp/cacerts/* ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/ca/ca.sardjito.arsada.org-cert.pem
+  mkdir -p ${PWD}/organizations/peerOrganizations/org1.hospital.com/ca
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp/cacerts/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/ca/ca.org1.hospital.com-cert.pem
 
   infoln "Generating the user msp"
   set -x
-  fabric-ca-client enroll -u https://user1:user1pw@localhost:11054 --caname ca-sardjito -M ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/users/User1@sardjito.arsada.org/msp --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client enroll -u https://user1:user1pw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/User1@org1.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/msp/config.yaml ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/users/User1@sardjito.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/User1@org1.hospital.com/msp/config.yaml
 
   infoln "Generating the org admin msp"
   set -x
-  fabric-ca-client enroll -u https://sardjitoadmin:sardjitoadminpw@localhost:11054 --caname ca-sardjito -M ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/users/Admin@sardjito.arsada.org/msp --tls.certfiles ${PWD}/organizations/fabric-ca/sardjito/tls-cert.pem
+  fabric-ca-client enroll -u https://org1admin:org1adminpw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/Admin@org1.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/msp/config.yaml ${PWD}/organizations/peerOrganizations/sardjito.arsada.org/users/Admin@sardjito.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/Admin@org1.hospital.com/msp/config.yaml
 }
 
-function createdharmais() {
+function createOrg2() {
   infoln "Enrolling the CA admin"
-  mkdir -p organizations/peerOrganizations/dharmais.arsada.org/
+  mkdir -p organizations/peerOrganizations/org2.hospital.com/
 
-  export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/dharmais.arsada.org/
+  export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/org2.hospital.com/
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:11052 --caname ca-dharmais --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client enroll -u https://admin:adminpw@localhost:7012 --caname ca-org2 --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-11052-ca-dharmais.pem
+    Certificate: cacerts/localhost-7012-ca-org2.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-11052-ca-dharmais.pem
+    Certificate: cacerts/localhost-7012-ca-org2.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-11052-ca-dharmais.pem
+    Certificate: cacerts/localhost-7012-ca-org2.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-11052-ca-dharmais.pem
-    OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/peerOrganizations/dharmais.arsada.org/msp/config.yaml
+    Certificate: cacerts/localhost-7012-ca-org2.pem
+    OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml
 
   infoln "Registering peer0"
   set -x
-  fabric-ca-client register --caname ca-dharmais --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client register --caname ca-org2 --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Registering user"
   set -x
-  fabric-ca-client register --caname ca-dharmais --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client register --caname ca-org2 --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Registering the org admin"
   set -x
-  fabric-ca-client register --caname ca-dharmais --id.name dharmaisadmin --id.secret dharmaisadminpw --id.type admin --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client register --caname ca-org2 --id.name org2admin --id.secret org2adminpw --id.type admin --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Generating the peer0 msp"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:11052 --caname ca-dharmais -M ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/msp --csr.hosts peer0.dharmais.arsada.org --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp --csr.hosts peer0.org2.hospital.com --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/msp/config.yaml ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp/config.yaml
 
   infoln "Generating the peer0-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:11052 --caname ca-dharmais -M ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls --enrollment.profile tls --csr.hosts peer0.dharmais.arsada.org --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls --enrollment.profile tls --csr.hosts peer0.org2.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/ca.crt
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/signcerts/* ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/server.crt
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/keystore/* ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/server.key
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/ca.crt
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/signcerts/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/server.crt
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/keystore/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/server.key
 
-  mkdir -p ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/msp/tlscacerts
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/msp/tlscacerts/ca.crt
+  mkdir -p ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/tlscacerts
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/tlscacerts/ca.crt
 
-  mkdir -p ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/tlsca
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/tlsca/tlsca.dharmais.arsada.org-cert.pem
+  mkdir -p ${PWD}/organizations/peerOrganizations/org2.hospital.com/tlsca
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/tlsca/tlsca.org2.hospital.com-cert.pem
 
-  mkdir -p ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/ca
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/msp/cacerts/* ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/ca/ca.dharmais.arsada.org-cert.pem
+  mkdir -p ${PWD}/organizations/peerOrganizations/org2.hospital.com/ca
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp/cacerts/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/ca/ca.org2.hospital.com-cert.pem
 
   infoln "Generating the user msp"
   set -x
-  fabric-ca-client enroll -u https://user1:user1pw@localhost:11052 --caname ca-dharmais -M ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/users/User1@dharmais.arsada.org/msp --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client enroll -u https://user1:user1pw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/User1@org2.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/msp/config.yaml ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/users/User1@dharmais.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/User1@org2.hospital.com/msp/config.yaml
 
   infoln "Generating the org admin msp"
   set -x
-  fabric-ca-client enroll -u https://dharmaisadmin:dharmaisadminpw@localhost:11052 --caname ca-dharmais -M ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/users/Admin@dharmais.arsada.org/msp --tls.certfiles ${PWD}/organizations/fabric-ca/dharmais/tls-cert.pem
+  fabric-ca-client enroll -u https://org2admin:org2adminpw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/Admin@org2.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/msp/config.yaml ${PWD}/organizations/peerOrganizations/dharmais.arsada.org/users/Admin@dharmais.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/Admin@org2.hospital.com/msp/config.yaml
 }
 
-function createarsada() {
+function createOrderer() {
   infoln "Enrolling the CA admin"
-  mkdir -p organizations/ordererOrganizations/arsada.org
+  mkdir -p organizations/ordererOrganizations/hospital.com
 
-  export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/ordererOrganizations/arsada.org
+  export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/ordererOrganizations/hospital.com
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:12051 --caname ca-arsada --tls.certfiles ${PWD}/organizations/fabric-ca/arsada/tls-cert.pem
+  fabric-ca-client enroll -u https://admin:adminpw@localhost:7010 --caname ca-arsada --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-12051-ca-arsada.pem
+    Certificate: cacerts/localhost-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-12051-ca-arsada.pem
+    Certificate: cacerts/localhost-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-12051-ca-arsada.pem
+    Certificate: cacerts/localhost-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-12051-ca-arsada.pem
-    OrganizationalUnitIdentifier: arsada' >${PWD}/organizations/ordererOrganizations/arsada.org/msp/config.yaml
+    Certificate: cacerts/localhost-7010-ca-arsada.pem
+    OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/ordererOrganizations/hospital.com/msp/config.yaml
 
   infoln "Registering orderer"
   set -x
-  fabric-ca-client register --caname ca-arsada --id.name arsada --id.secret arsadapw --id.type orderer --tls.certfiles ${PWD}/organizations/fabric-ca/arsada/tls-cert.pem
+  fabric-ca-client register --caname ca-arsada --id.name arsada --id.secret arsadapw --id.type orderer --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Registering the orderer admin"
   set -x
-  fabric-ca-client register --caname ca-arsada --id.name arsadaAdmin --id.secret arsadaAdminpw --id.type admin --tls.certfiles ${PWD}/organizations/fabric-ca/arsada/tls-cert.pem
+  fabric-ca-client register --caname ca-arsada --id.name arsadaAdmin --id.secret arsadaAdminpw --id.type admin --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   infoln "Generating the orderer msp"
   set -x
-  fabric-ca-client enroll -u https://arsada:arsadapw@localhost:12051 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp --csr.hosts orderer.arsada.org --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/arsada/tls-cert.pem
+  fabric-ca-client enroll -u https://arsada:arsadapw@localhost:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp --csr.hosts arsada.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/msp/config.yaml ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/msp/config.yaml ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp/config.yaml
 
   infoln "Generating the orderer-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://arsada:arsadapw@localhost:12051 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls --enrollment.profile tls --csr.hosts orderer.arsada.org --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/arsada/tls-cert.pem
+  fabric-ca-client enroll -u https://arsada:arsadapw@localhost:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls --enrollment.profile tls --csr.hosts arsada.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/ca.crt
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/signcerts/* ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/server.crt
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/keystore/* ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/server.key
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/ca.crt
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/signcerts/* ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/server.crt
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/keystore/* ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/server.key
 
-  mkdir -p ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp/tlscacerts
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp/tlscacerts/tlsca.arsada.org-cert.pem
+  mkdir -p ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp/tlscacerts
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp/tlscacerts/tlsca.hospital.com-cert.pem
 
-  mkdir -p ${PWD}/organizations/ordererOrganizations/arsada.org/msp/tlscacerts
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/arsada.org/msp/tlscacerts/tlsca.arsada.org-cert.pem
+  mkdir -p ${PWD}/organizations/ordererOrganizations/hospital.com/msp/tlscacerts
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/hospital.com/msp/tlscacerts/tlsca.hospital.com-cert.pem
 
   infoln "Generating the admin msp"
   set -x
-  fabric-ca-client enroll -u https://arsadaAdmin:arsadaAdminpw@localhost:12051 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/arsada.org/users/Admin@arsada.org/msp --tls.certfiles ${PWD}/organizations/fabric-ca/arsada/tls-cert.pem
+  fabric-ca-client enroll -u https://arsadaAdmin:arsadaAdminpw@localhost:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/users/Admin@hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/organizations/ordererOrganizations/arsada.org/msp/config.yaml ${PWD}/organizations/ordererOrganizations/arsada.org/users/Admin@arsada.org/msp/config.yaml
+  cp ${PWD}/organizations/ordererOrganizations/hospital.com/msp/config.yaml ${PWD}/organizations/ordererOrganizations/hospital.com/users/Admin@hospital.com/msp/config.yaml
 }

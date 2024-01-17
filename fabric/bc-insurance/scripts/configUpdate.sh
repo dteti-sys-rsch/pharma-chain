@@ -20,7 +20,7 @@ fetchChannelConfig() {
 
   infoln "Fetching the most recent configuration block for the channel"
   set -x
-  peer channel fetch config config_block.pb -o orderer.aaui.org:7052 --ordererTLSHostnameOverride orderer.aaui.org -c $CHANNEL --tls --cafile $ORDERER_CA
+  peer channel fetch config config_block.pb -o aaui.insurance.com:7150 --ordererTLSHostnameOverride aaui.insurance.com -c $CHANNEL --tls --cafile $ORDERER_CA
   { set +x; } 2>/dev/null
 
   infoln "Decoding config block to JSON and isolating config to ${OUTPUT}"

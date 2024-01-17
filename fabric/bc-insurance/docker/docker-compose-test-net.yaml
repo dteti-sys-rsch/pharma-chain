@@ -3,31 +3,30 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-version: '2.1'
+version: "2.1"
 
 volumes:
-  orderer.aaui.org:
-  peer0.prudential.aaui.org:
-  peer0.manulife.aaui.org:
+  aaui.insurance.com:
+  peer0.org4.insurance.com:
+  peer0.org5.insurance.com:
 
 networks:
   test:
-    name: fabric_test
+    name: insurance_network
 
 services:
-
-  orderer.aaui.org:
-    container_name: orderer.aaui.org
+  aaui.insurance.com:
+    container_name: aaui.insurance.com
     image: hyperledger/fabric-orderer:latest
     environment:
       - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_LISTENPORT=7052
+      - ORDERER_GENERAL_LISTENPORT=7150
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/aaui.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=AAUIMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.aaui.org:9446
+      - ORDERER_OPERATIONS_LISTENADDRESS=aaui.insurance.com:9443
       # enabled TLS
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
@@ -41,18 +40,18 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
-        - ../system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ../organizations/ordererOrganizations/aaui.org/orderers/orderer.aaui.org/msp:/var/hyperledger/orderer/msp
-        - ../organizations/ordererOrganizations/aaui.org/orderers/orderer.aaui.org/tls/:/var/hyperledger/orderer/tls
-        - orderer.aaui.org:/var/hyperledger/production/orderer
+      - ../system-genesis-block/genesis.block:/var/hyperledger/orderer/aaui.genesis.block
+      - ../organizations/ordererOrganizations/insurance.com/orderers/aaui.insurance.com/msp:/var/hyperledger/orderer/msp
+      - ../organizations/ordererOrganizations/insurance.com/orderers/aaui.insurance.com/tls/:/var/hyperledger/orderer/tls
+      - aaui.insurance.com:/var/hyperledger/production/orderer
     ports:
-      - 7052:7052
-      - 9446:9446
+      - 7150:7150
+      - 9443:9443
     networks:
       - test
 
-  peer0.prudential.aaui.org:
-    container_name: peer0.prudential.aaui.org
+  peer0.org4.insurance.com:
+    container_name: peer0.org4.insurance.com
     image: hyperledger/fabric-peer:latest
     environment:
       #Generic peer variables
@@ -66,30 +65,30 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=peer0.prudential.aaui.org
-      - CORE_PEER_ADDRESS=peer0.prudential.aaui.org:11053
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:11053
-      - CORE_PEER_CHAINCODEADDRESS=peer0.prudential.aaui.org:11063
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11063
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.prudential.aaui.org:11053
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.prudential.aaui.org:11053
-      - CORE_PEER_LOCALMSPID=PrudentialMSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.prudential.aaui.org:9447
+      - CORE_PEER_ID=peer0.org4.insurance.com
+      - CORE_PEER_ADDRESS=peer0.org4.insurance.com:7121
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7121
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org4.insurance.com:7122
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7122
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org4.insurance.com:7121
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org4.insurance.com:7121
+      - CORE_PEER_LOCALMSPID=Org4MSP
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org4.insurance.com:9444
     volumes:
-        - /var/run/docker.sock:/host/var/run/docker.sock
-        - ../organizations/peerOrganizations/prudential.aaui.org/peers/peer0.prudential.aaui.org/msp:/etc/hyperledger/fabric/msp
-        - ../organizations/peerOrganizations/prudential.aaui.org/peers/peer0.prudential.aaui.org/tls:/etc/hyperledger/fabric/tls
-        - peer0.prudential.aaui.org:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ../organizations/peerOrganizations/org4.insurance.com/peers/peer0.org4.insurance.com/msp:/etc/hyperledger/fabric/msp
+      - ../organizations/peerOrganizations/org4.insurance.com/peers/peer0.org4.insurance.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.org4.insurance.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
-      - 11053:11053
-      - 9447:9447
+      - 7121:7121
+      - 9444:9444
     networks:
       - test
 
-  peer0.manulife.aaui.org:
-    container_name: peer0.manulife.aaui.org
+  peer0.org5.insurance.com:
+    container_name: peer0.org5.insurance.com
     image: hyperledger/fabric-peer:latest
     environment:
       #Generic peer variables
@@ -103,30 +102,30 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=peer0.manulife.aaui.org
-      - CORE_PEER_ADDRESS=peer0.manulife.aaui.org:11054
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:11054
-      - CORE_PEER_CHAINCODEADDRESS=peer0.manulife.aaui.org:11064
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11064
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.manulife.aaui.org:11054
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.manulife.aaui.org:11054
-      - CORE_PEER_LOCALMSPID=ManulifeMSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.manulife.aaui.org:9448
+      - CORE_PEER_ID=peer0.org5.insurance.com
+      - CORE_PEER_ADDRESS=peer0.org5.insurance.com:7131
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7131
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org5.insurance.com:7132
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7132
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org5.insurance.com:7131
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org5.insurance.com:7131
+      - CORE_PEER_LOCALMSPID=Org5MSP
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org5.insurance.com:9445
     volumes:
-        - /var/run/docker.sock:/host/var/run/docker.sock
-        - ../organizations/peerOrganizations/manulife.aaui.org/peers/peer0.manulife.aaui.org/msp:/etc/hyperledger/fabric/msp
-        - ../organizations/peerOrganizations/manulife.aaui.org/peers/peer0.manulife.aaui.org/tls:/etc/hyperledger/fabric/tls
-        - peer0.manulife.aaui.org:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ../organizations/peerOrganizations/org5.insurance.com/peers/peer0.org5.insurance.com/msp:/etc/hyperledger/fabric/msp
+      - ../organizations/peerOrganizations/org5.insurance.com/peers/peer0.org5.insurance.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.org5.insurance.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
-      - 11054:11054
-      - 9448:9448
+      - 7131:7131
+      - 9445:9445
     networks:
       - test
 
-  cli:
-    container_name: cli
+  cli_insurance:
+    container_name: cli_insurance
     image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
@@ -138,11 +137,11 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations
-        - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - /var/run/:/host/var/run/
+      - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations
+      - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
     depends_on:
-      - peer0.prudential.aaui.org
-      - peer0.manulife.aaui.org
+      - peer0.org4.insurance.com
+      - peer0.org5.insurance.com
     networks:
       - test

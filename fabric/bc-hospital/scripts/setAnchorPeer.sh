@@ -15,19 +15,19 @@ createAnchorPeerUpdate() {
   infoln "Fetching channel config for channel $CHANNEL_NAME"
   fetchChannelConfig $ORG $CHANNEL_NAME ${CORE_PEER_LOCALMSPID}config.json
 
-  infoln "Generating anchor peer update transaction for ${ORG} on channel $CHANNEL_NAME"
+  infoln "Generating anchor peer update transaction for Org${ORG} on channel $CHANNEL_NAME"
 
   if [ $ORG -eq 1 ]; then
-    HOST="peer0.sardjito.arsada.org"
-    PORT=10051
+    HOST="peer0.org1.hospital.com"
+    PORT=7021
   elif [ $ORG -eq 2 ]; then
-    HOST="peer0.dharmais.arsada.org"
-    PORT=10052
+    HOST="peer0.org2.hospital.com"
+    PORT=7031
   elif [ $ORG -eq 3 ]; then
-    HOST="peer0.org3.arsada.org"
-    PORT=10055
+    HOST="peer0.org3.hospital.com"
+    PORT=7041
   else
-    errorln "${ORG} unknown"
+    errorln "Org${ORG} unknown"
   fi
 
   set -x
@@ -42,7 +42,7 @@ createAnchorPeerUpdate() {
 }
 
 updateAnchorPeer() {
-  peer channel update -o orderer.arsada.org:7050 --ordererTLSHostnameOverride orderer.arsada.org -c $CHANNEL_NAME -f ${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile $ORDERER_CA >&log.txt
+  peer channel update -o arsada.hospital.com:7050 --ordererTLSHostnameOverride arsada.hospital.com -c $CHANNEL_NAME -f ${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile $ORDERER_CA >&log.txt
   res=$?
   cat log.txt
   verifyResult $res "Anchor peer update failed"

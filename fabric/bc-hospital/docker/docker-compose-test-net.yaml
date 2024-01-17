@@ -3,31 +3,30 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-version: '2.1'
+version: "2.1"
 
 volumes:
-  orderer.arsada.org:
-  peer0.sardjito.arsada.org:
-  peer0.dharmais.arsada.org:
+  arsada.hospital.com:
+  peer0.org1.hospital.com:
+  peer0.org2.hospital.com:
 
 networks:
   test:
-    name: fabric_test
+    name: hospital_network
 
 services:
-
-  orderer.arsada.org:
-    container_name: orderer.arsada.org
+  arsada.hospital.com:
+    container_name: arsada.hospital.com
     image: hyperledger/fabric-orderer:latest
     environment:
       - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_LISTENPORT=7051
+      - ORDERER_GENERAL_LISTENPORT=7050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/arsada.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=ARSADAMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.arsada.org:9443
+      - ORDERER_OPERATIONS_LISTENADDRESS=arsada.hospital.com:9443
       # enabled TLS
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
@@ -41,18 +40,18 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
-        - ../system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ../organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/msp:/var/hyperledger/orderer/msp
-        - ../organizations/ordererOrganizations/arsada.org/orderers/orderer.arsada.org/tls/:/var/hyperledger/orderer/tls
-        - orderer.arsada.org:/var/hyperledger/production/orderer
+      - ../system-genesis-block/genesis.block:/var/hyperledger/orderer/arsada.genesis.block
+      - ../organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp:/var/hyperledger/orderer/msp
+      - ../organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/:/var/hyperledger/orderer/tls
+      - arsada.hospital.com:/var/hyperledger/production/orderer
     ports:
-      - 7051:7051
+      - 7050:7050
       - 9443:9443
     networks:
       - test
 
-  peer0.sardjito.arsada.org:
-    container_name: peer0.sardjito.arsada.org
+  peer0.org1.hospital.com:
+    container_name: peer0.org1.hospital.com
     image: hyperledger/fabric-peer:latest
     environment:
       #Generic peer variables
@@ -66,30 +65,30 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=peer0.sardjito.arsada.org
-      - CORE_PEER_ADDRESS=peer0.sardjito.arsada.org:10051
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.sardjito.arsada.org:10061
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10061
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.sardjito.arsada.org:10051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.sardjito.arsada.org:10051
-      - CORE_PEER_LOCALMSPID=SardjitoMSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.sardjito.arsada.org:9444
+      - CORE_PEER_ID=peer0.org1.hospital.com
+      - CORE_PEER_ADDRESS=peer0.org1.hospital.com:7021
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7021
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.hospital.com:7022
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7022
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.hospital.com:7021
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.hospital.com:7021
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org1.hospital.com:9444
     volumes:
-        - /var/run/docker.sock:/host/var/run/docker.sock
-        - ../organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/msp:/etc/hyperledger/fabric/msp
-        - ../organizations/peerOrganizations/sardjito.arsada.org/peers/peer0.sardjito.arsada.org/tls:/etc/hyperledger/fabric/tls
-        - peer0.sardjito.arsada.org:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ../organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp:/etc/hyperledger/fabric/msp
+      - ../organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.org1.hospital.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
-      - 10051:10051
+      - 7021:7021
       - 9444:9444
     networks:
       - test
 
-  peer0.dharmais.arsada.org:
-    container_name: peer0.dharmais.arsada.org
+  peer0.org2.hospital.com:
+    container_name: peer0.org2.hospital.com
     image: hyperledger/fabric-peer:latest
     environment:
       #Generic peer variables
@@ -103,30 +102,30 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=peer0.dharmais.arsada.org
-      - CORE_PEER_ADDRESS=peer0.dharmais.arsada.org:10052
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:10052
-      - CORE_PEER_CHAINCODEADDRESS=peer0.dharmais.arsada.org:10062
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10062
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.dharmais.arsada.org:10052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.dharmais.arsada.org:10052
-      - CORE_PEER_LOCALMSPID=DharmaisMSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.dharmais.arsada.org:9445
+      - CORE_PEER_ID=peer0.org2.hospital.com
+      - CORE_PEER_ADDRESS=peer0.org2.hospital.com:7031
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7031
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.hospital.com:7032
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7032
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.hospital.com:7031
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.hospital.com:7031
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org2.hospital.com:9445
     volumes:
-        - /var/run/docker.sock:/host/var/run/docker.sock
-        - ../organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/msp:/etc/hyperledger/fabric/msp
-        - ../organizations/peerOrganizations/dharmais.arsada.org/peers/peer0.dharmais.arsada.org/tls:/etc/hyperledger/fabric/tls
-        - peer0.dharmais.arsada.org:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ../organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp:/etc/hyperledger/fabric/msp
+      - ../organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.org2.hospital.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
-      - 10052:10052
+      - 7031:7031
       - 9445:9445
     networks:
       - test
 
-  cli:
-    container_name: cli
+  cli_hospital:
+    container_name: cli_hospital
     image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
@@ -138,11 +137,11 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations
-        - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - /var/run/:/host/var/run/
+      - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations
+      - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
     depends_on:
-      - peer0.sardjito.arsada.org
-      - peer0.dharmais.arsada.org
+      - peer0.org1.hospital.com
+      - peer0.org2.hospital.com
     networks:
       - test
