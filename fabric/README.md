@@ -22,12 +22,15 @@
         test-network: ./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-javascript -ccl javascript
 
         # for use :
-        hospital: ./network.sh deployCC -c hospital -ccn hospitalCC -ccp ../chaincode -ccl javascript
-        insurance: ./network.sh deployCC -c insurance -ccn insuranceCC -ccp ../chaincode -ccl javascript
+        hospital: ./network.sh deployCC -c hospital -ccn hospital-cc -ccp ../chaincode -ccl javascript
+        insurance: ./network.sh deployCC -c insurance -ccn insurance-cc -ccp ../chaincode -ccl javascript
 
     # network down on each folder (bc-hospital and bc-insurance)
         ./network.sh down
 
+    # run the app!
+        from directory /pharma-chain/scripts/fabric-sdk-hospital -> node app
+        from directory /pharma-chain/scripts/fabric-sdk-insurance -> node app
 
 # Port Guidelines
 

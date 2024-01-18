@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-version: '2.1'
+version: "2.1"
 
 networks:
   test:
-    name: fabric_test
+    name: hospital_network
 
 services:
   couchdb4:
