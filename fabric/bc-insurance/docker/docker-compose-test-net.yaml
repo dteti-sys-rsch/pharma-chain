@@ -26,7 +26,7 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/aaui.genesis.block
       - ORDERER_GENERAL_LOCALMSPID=AAUIMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
-      - ORDERER_OPERATIONS_LISTENADDRESS=aaui.insurance.com:9443
+      - ORDERER_OPERATIONS_LISTENADDRESS=aaui.insurance.com:9543
       # enabled TLS
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
@@ -46,7 +46,7 @@ services:
       - aaui.insurance.com:/var/hyperledger/production/orderer
     ports:
       - 7150:7150
-      - 9443:9443
+      - 9543:9543
     networks:
       - test
 
@@ -73,7 +73,7 @@ services:
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org4.insurance.com:7121
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org4.insurance.com:7121
       - CORE_PEER_LOCALMSPID=Org4MSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.org4.insurance.com:9444
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org4.insurance.com:9544
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
       - ../organizations/peerOrganizations/org4.insurance.com/peers/peer0.org4.insurance.com/msp:/etc/hyperledger/fabric/msp
@@ -83,7 +83,7 @@ services:
     command: peer node start
     ports:
       - 7121:7121
-      - 9444:9444
+      - 9544:9544
     networks:
       - test
 
@@ -110,7 +110,7 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org5.insurance.com:7131
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org5.insurance.com:7131
       - CORE_PEER_LOCALMSPID=Org5MSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.org5.insurance.com:9445
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org5.insurance.com:9545
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
       - ../organizations/peerOrganizations/org5.insurance.com/peers/peer0.org5.insurance.com/msp:/etc/hyperledger/fabric/msp
@@ -120,7 +120,7 @@ services:
     command: peer node start
     ports:
       - 7131:7131
-      - 9445:9445
+      - 9545:9545
     networks:
       - test
 
