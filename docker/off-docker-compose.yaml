@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  ## Database Off Chain
+  pharmachain_mongodb:
+    container_name: pharmachain_mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - protocol: tcp
+        published: 27017
+        target: 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dteti
+      MONGO_INITDB_ROOT_PASSWORD: mongodteti
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - mongodb_data:/exports/nfs/mongodb
+    networks: 
+      - blockchain
+      - health-insurance-net
+
+  pharmachain_postgres:
+    container_name: pharmachain_postgres
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_USER: dteti
+      POSTGRES_PASSWORD: postgresdteti
+    ports:
+      - protocol: tcp
+        published: 5432
+        target: 5432
+    volumes:
+      - postgres_data:/exports/nfs/postgres
+    networks:
+      - blockchain
+      - hospital-net
+
+volumes:
+  mongodb_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=10.42.29.133,rw,nolock,soft"
+      device: ":/exports/nfs/mongodb"
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=10.42.29.133,rw,nolock,soft"
+      device: ":/exports/nfs/postgres"
+
+networks:
+  blockchain:
+    external: true
+    driver: bridge
+  hospital-net:
+    name: hospital-net
+    driver: bridge
+  health-insurance-net:
+    name: health-insurance-net
+    driver: bridge
