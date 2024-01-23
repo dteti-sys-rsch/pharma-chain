@@ -24,7 +24,7 @@
     },
     "peers": {
         "peer0.org${ORG}.insurance.com": {
-            "url": "grpcs://localhost:${P0PORT}",
+            "url": "grpcs://10.42.10.131:${P0PORT}",
             "tlsCACerts": {
                 "pem": "${PEERPEM}"
             },
@@ -36,7 +36,7 @@
     },
     "certificateAuthorities": {
         "ca.org${ORG}.insurance.com": {
-            "url": "https://localhost:${CAPORT}",
+            "url": "https://10.42.10.131:${CAPORT}",
             "caName": "ca-org${ORG}",
             "tlsCACerts": {
                 "pem": [
