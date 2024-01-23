@@ -1,5 +1,23 @@
 #!/bin/bash
 
+# Function to log messages
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+# Run Docker Compose on Main Server in the background
+log "Starting Docker Compose..."
+cd ../../docker && docker compose up -d
+
+# Check if Docker Compose started successfully
+if [ $? -ne 0 ]; then
+    log "Error starting Docker Compose. Exiting script."
+    exit 1
+fi
+
+# Wait for a moment to ensure Docker Compose has started
+sleep 5
+
 # Hostnames or IP addresses of the two remote hosts
 HOST1='novaldy@10.42.10.132'
 HOST2='gdputra@10.42.10.131'
