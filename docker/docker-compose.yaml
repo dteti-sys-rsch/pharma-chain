@@ -13,9 +13,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: dteti
       MONGO_INITDB_ROOT_PASSWORD: mongodteti
-      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_DATABASE: healthinsurance
     volumes:
-      - mongodb_data:/exports/nfs/mongodb
+      - mongodb_data:/data/db
     networks: 
       - blockchain
       - health-insurance-net
@@ -27,14 +27,29 @@ services:
     environment:
       POSTGRES_USER: dteti
       POSTGRES_PASSWORD: postgresdteti
+      POSTGRES_DB: hospitals
     ports:
       - protocol: tcp
         published: 5432
         target: 5432
     volumes:
-      - postgres_data:/exports/nfs/postgres
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - blockchain
+      - hospital-net
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dteti@dteti.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin:/home/gdputra/shared/data/pgadmin
+    networks:
       - hospital-net
 
 volumes:
@@ -43,13 +58,19 @@ volumes:
     driver_opts:
       type: nfs
       o: "addr=10.42.29.133,rw,nolock,soft"
-      device: ":/exports/nfs/mongodb"
+      device: ":/home/gdputra/shared/data/mongodb"
   postgres_data:
     driver: local
     driver_opts:
       type: nfs
       o: "addr=10.42.29.133,rw,nolock,soft"
-      device: ":/exports/nfs/postgres"
+      device: ":/home/gdputra/shared/data/postgres"
+  pgadmin_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=10.42.29.133,rw,nolock,soft"
+      device: ":/home/gdputra/shared/data/pgadmin"
 
 networks:
   blockchain:
