@@ -309,7 +309,7 @@ csr:
       O: org1.hospital.com
       OU:
   hosts:
-    - localhost
+    - 10.42.10.132
     - org1.hospital.com
   ca:
     expiry: 131400h

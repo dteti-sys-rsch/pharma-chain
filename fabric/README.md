@@ -34,6 +34,10 @@
 
 # Port Guidelines
 
+    # IP Address
+        hospital = 10.42.10.132
+        insurance = 10.42.10.131
+
     # Port Orderer: (default 7050)
         hospital = arsada:7050
         insurance = aaui:7150

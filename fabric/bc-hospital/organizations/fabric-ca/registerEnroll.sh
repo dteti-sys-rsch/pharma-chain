@@ -7,22 +7,22 @@ function createOrg1() {
   export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/org1.hospital.com/
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:7011 --caname ca-org1 --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+  fabric-ca-client enroll -u https://admin:adminpw@10.42.10.132:7011 --caname ca-org1 --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-7011-ca-org1.pem
+    Certificate: cacerts/10.42.10.132-7011-ca-org1.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-7011-ca-org1.pem
+    Certificate: cacerts/10.42.10.132-7011-ca-org1.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-7011-ca-org1.pem
+    Certificate: cacerts/10.42.10.132-7011-ca-org1.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-7011-ca-org1.pem
+    Certificate: cacerts/10.42.10.132-7011-ca-org1.pem
     OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml
 
   infoln "Registering peer0"
@@ -42,14 +42,14 @@ function createOrg1() {
 
   infoln "Generating the peer0 msp"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp --csr.hosts peer0.org1.hospital.com --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@10.42.10.132:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp --csr.hosts peer0.org1.hospital.com --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/msp/config.yaml
 
   infoln "Generating the peer0-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls --enrollment.profile tls --csr.hosts peer0.org1.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@10.42.10.132:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls --enrollment.profile tls --csr.hosts peer0.org1.hospital.com --csr.hosts 10.42.10.132 --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org1.hospital.com/peers/peer0.org1.hospital.com/tls/ca.crt
@@ -67,14 +67,14 @@ function createOrg1() {
 
   infoln "Generating the user msp"
   set -x
-  fabric-ca-client enroll -u https://user1:user1pw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/User1@org1.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+  fabric-ca-client enroll -u https://user1:user1pw@10.42.10.132:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/User1@org1.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/User1@org1.hospital.com/msp/config.yaml
 
   infoln "Generating the org admin msp"
   set -x
-  fabric-ca-client enroll -u https://org1admin:org1adminpw@localhost:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/Admin@org1.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+  fabric-ca-client enroll -u https://org1admin:org1adminpw@10.42.10.132:7011 --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/Admin@org1.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org1.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org1.hospital.com/users/Admin@org1.hospital.com/msp/config.yaml
@@ -87,22 +87,22 @@ function createOrg2() {
   export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/org2.hospital.com/
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:7012 --caname ca-org2 --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
+  fabric-ca-client enroll -u https://admin:adminpw@10.42.10.132:7012 --caname ca-org2 --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-7012-ca-org2.pem
+    Certificate: cacerts/10.42.10.132-7012-ca-org2.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-7012-ca-org2.pem
+    Certificate: cacerts/10.42.10.132-7012-ca-org2.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-7012-ca-org2.pem
+    Certificate: cacerts/10.42.10.132-7012-ca-org2.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-7012-ca-org2.pem
+    Certificate: cacerts/10.42.10.132-7012-ca-org2.pem
     OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml
 
   infoln "Registering peer0"
@@ -122,14 +122,14 @@ function createOrg2() {
 
   infoln "Generating the peer0 msp"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp --csr.hosts peer0.org2.hospital.com --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@10.42.10.132:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp --csr.hosts peer0.org2.hospital.com --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/msp/config.yaml
 
   infoln "Generating the peer0-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls --enrollment.profile tls --csr.hosts peer0.org2.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@10.42.10.132:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls --enrollment.profile tls --csr.hosts peer0.org2.hospital.com --csr.hosts 10.42.10.132 --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/tlscacerts/* ${PWD}/organizations/peerOrganizations/org2.hospital.com/peers/peer0.org2.hospital.com/tls/ca.crt
@@ -147,14 +147,14 @@ function createOrg2() {
 
   infoln "Generating the user msp"
   set -x
-  fabric-ca-client enroll -u https://user1:user1pw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/User1@org2.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
+  fabric-ca-client enroll -u https://user1:user1pw@10.42.10.132:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/User1@org2.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/User1@org2.hospital.com/msp/config.yaml
 
   infoln "Generating the org admin msp"
   set -x
-  fabric-ca-client enroll -u https://org2admin:org2adminpw@localhost:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/Admin@org2.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
+  fabric-ca-client enroll -u https://org2admin:org2adminpw@10.42.10.132:7012 --caname ca-org2 -M ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/Admin@org2.hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/peerOrganizations/org2.hospital.com/msp/config.yaml ${PWD}/organizations/peerOrganizations/org2.hospital.com/users/Admin@org2.hospital.com/msp/config.yaml
@@ -167,22 +167,22 @@ function createOrderer() {
   export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/ordererOrganizations/hospital.com
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:7010 --caname ca-arsada --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
+  fabric-ca-client enroll -u https://admin:adminpw@10.42.10.132:7010 --caname ca-arsada --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-7010-ca-arsada.pem
+    Certificate: cacerts/10.42.10.132-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-7010-ca-arsada.pem
+    Certificate: cacerts/10.42.10.132-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-7010-ca-arsada.pem
+    Certificate: cacerts/10.42.10.132-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-7010-ca-arsada.pem
+    Certificate: cacerts/10.42.10.132-7010-ca-arsada.pem
     OrganizationalUnitIdentifier: orderer' >${PWD}/organizations/ordererOrganizations/hospital.com/msp/config.yaml
 
   infoln "Registering orderer"
@@ -197,14 +197,14 @@ function createOrderer() {
 
   infoln "Generating the orderer msp"
   set -x
-  fabric-ca-client enroll -u https://arsada:arsadapw@localhost:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp --csr.hosts arsada.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
+  fabric-ca-client enroll -u https://arsada:arsadapw@10.42.10.132:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp --csr.hosts arsada.hospital.com --csr.hosts 10.42.10.132 --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/ordererOrganizations/hospital.com/msp/config.yaml ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/msp/config.yaml
 
   infoln "Generating the orderer-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://arsada:arsadapw@localhost:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls --enrollment.profile tls --csr.hosts arsada.hospital.com --csr.hosts localhost --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
+  fabric-ca-client enroll -u https://arsada:arsadapw@10.42.10.132:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls --enrollment.profile tls --csr.hosts arsada.hospital.com --csr.hosts 10.42.10.132 --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/tlscacerts/* ${PWD}/organizations/ordererOrganizations/hospital.com/orderers/arsada.hospital.com/tls/ca.crt
@@ -219,7 +219,7 @@ function createOrderer() {
 
   infoln "Generating the admin msp"
   set -x
-  fabric-ca-client enroll -u https://arsadaAdmin:arsadaAdminpw@localhost:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/users/Admin@hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
+  fabric-ca-client enroll -u https://arsadaAdmin:arsadaAdminpw@10.42.10.132:7010 --caname ca-arsada -M ${PWD}/organizations/ordererOrganizations/hospital.com/users/Admin@hospital.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/arsadaOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${PWD}/organizations/ordererOrganizations/hospital.com/msp/config.yaml ${PWD}/organizations/ordererOrganizations/hospital.com/users/Admin@hospital.com/msp/config.yaml

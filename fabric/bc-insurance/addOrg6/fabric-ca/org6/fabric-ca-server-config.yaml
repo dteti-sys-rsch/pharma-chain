@@ -309,7 +309,7 @@ csr:
       O: org3.example.com
       OU:
   hosts:
-    - localhost
+    - 10.42.10.131
     - org3.example.com
   ca:
     expiry: 131400h

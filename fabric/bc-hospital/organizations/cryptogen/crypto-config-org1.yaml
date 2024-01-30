@@ -48,7 +48,7 @@ PeerOrgs:
     Template:
       Count: 1
       SANS:
-        - localhost
+        - 10.42.10.132
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
     # ---------------------------------------------------------------------------

@@ -6,17 +6,17 @@ client:
   connection:
     timeout:
       peer:
-        endorser: '300'
+        endorser: "300"
 organizations:
   Org${ORG}:
     mspid: Org${ORG}MSP
     peers:
-    - peer0.org${ORG}.example.com
+      - peer0.org${ORG}.example.com
     certificateAuthorities:
-    - ca.org${ORG}.example.com
+      - ca.org${ORG}.example.com
 peers:
   peer0.org${ORG}.example.com:
-    url: grpcs://localhost:${P0PORT}
+    url: grpcs://10.42.10.132:${P0PORT}
     tlsCACerts:
       pem: |
         ${PEERPEM}
@@ -25,7 +25,7 @@ peers:
       hostnameOverride: peer0.org${ORG}.example.com
 certificateAuthorities:
   ca.org${ORG}.example.com:
-    url: https://localhost:${CAPORT}
+    url: https://10.42.10.132:${CAPORT}
     caName: ca-org${ORG}
     tlsCACerts:
       pem: |
