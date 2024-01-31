@@ -4,9 +4,6 @@
 /ledgers-backup
 /channel-artifacts/*.json
 /org3-artifacts/crypto-config/*
-organizations/fabric-ca/aauiOrg/*
-organizations/fabric-ca/org4/*
-organizations/fabric-ca/org5/*
 organizations/ordererOrganizations/*
 organizations/peerOrganizations/*
 system-genesis-block/*
